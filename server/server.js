@@ -32,18 +32,11 @@ app.post('/api/user', async (req, res) => {
   }
 });
 
-
-
-
 // database connection
 
 const connectDB = async () => {
   try {
-    // mongodb connection string 
-    const con = await mongoose.connect('mongodb://127.0.0.1:27017/amrit', {
-
-    })
-
+    const con = await mongoose.connect('mongodb://127.0.0.1:27017/amrit')
     console.log(`Mongo DB connedted: ${con.connection.host}`)
   } catch (error) {
     console.log(error)
@@ -57,6 +50,6 @@ connectDB()
 
 
 
-app.listen(5000, () => {
+app.listen(8000, () => {
   console.log("App is listening at http:localhost:5000")
 })

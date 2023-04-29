@@ -1,18 +1,24 @@
 import React from 'react'
 import '../App.css';
+import axios from 'axios';
 
 function Main() {
   const [value, setValue] = React.useState([])
 
 
   React.useEffect(() => {
-    fetch(('/api'))
-      .then(res => res.json())
-      .then(data => {
-        console.log(data)
-        setValue(data)
-      })
-  }, [])
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/api');
+      setValue(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 
   return (
     <div className='main'>

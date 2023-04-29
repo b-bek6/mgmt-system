@@ -15,7 +15,7 @@ function Form() {
     console.log(value);
 
     // send data to server using axios
-    axios.post('/api/user', value)
+    axios.post('http://localhost:8000/api/user', value)
       .then((response) => {
         console.log(response.data);
       })
