@@ -27,7 +27,8 @@ function Form() {
   return (
     <div className='form'>
       <form action="#" onSubmit={handleSubmit} >
-        <input type="hidden" name='id' />
+        <input type="text"  onChange={(e)=>{setValue({...value,id:e.target.value})}
+        } name='id' />
         <label htmlFor="name" id='hidden'>Name </label>
         <input 
         type="text" 

@@ -19,7 +19,17 @@ app.get('/api', async (req, res) => {
   } catch (error) {
     res.status(500).send(error);
   }
-});;
+});
+
+app.delete('/api/:id', async (req, res) => {
+  try{
+    let delUser = await User.findByIdAndDelete(req.params.id);
+    res.status(200).send({msg: delUser});
+  }catch(err){
+    res.status(400).send({msg: "invalid delete operation"});
+  }
+
+})
 
 app.post('/api/user', async (req, res) => {
   try {
