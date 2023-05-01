@@ -5,11 +5,11 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const User = require('./models/User');
 
-app.use(cors());
-app.use(bodyParser.json());
+app.use(cors()); // cross origin resource sharing 
+app.use(bodyParser.json()); 
 
 app.get('/', (req, res) => {
-  res.send("Hello")
+  res.send("This is the home page")
 })
 
 app.get('/api', async (req, res) => {
@@ -31,16 +31,23 @@ app.delete('/api/:id', async (req, res) => {
 
 })
 
+app.put('/api/:id', async (req, res) => {
+  try {
+    let editUser = await User.findByIdAndUpdate(req.params.id, {...req.body}, {new: true});
+    res.status(200).send({msg: editUser});
+  } catch (error) {
+    res.status(404).send({msg: "Error while editing data"})
+  }
+})
+
 app.post('/api/user', async (req, res) => {
   try {
-    console.log(req.body);
-    const user = new User(req.body);
-    await user.save();
-    res.status(201).send(user);
+    const user = await User.create(req.body);
+    res.send({msg:user});
   } catch (error) {
-    res.status(400).send(error);
+    res.send({error});
   }
-});
+})
 
 // database connection
 
@@ -56,9 +63,6 @@ const connectDB = async () => {
 
 // mongodb connection
 connectDB()
-
-
-
 
 app.listen(8000, () => {
   console.log("App is listening at http:localhost:5000")
