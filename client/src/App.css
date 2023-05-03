@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&family=Comfortaa&display=swap');
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 .App {
   /* text-align: center; */
   height: 100vh;

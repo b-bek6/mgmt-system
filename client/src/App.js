@@ -27,7 +27,7 @@ function App() {
       <Route path='/' element={<Root />} >
         <Route index element={<Main />} />
         <Route path='/form' element={<Form />} />
-      
+    
       </Route>
     )
   )

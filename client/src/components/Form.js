@@ -24,6 +24,17 @@ function Form() {
         console.log("Problem in here");
       });
   };
+
+  // edit data
+  // const editData = async (id) => {
+  //   console.log(id);
+  //   try {
+  //     await axios.put(`http://localhost:8000/api/${id}`)
+  //   }catch (e){
+  //     console.error('Error while editing the')
+  //   }
+  // }
+
   return (
     <div className='form'>
       <form action="#" onSubmit={handleSubmit} >

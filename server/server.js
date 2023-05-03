@@ -12,6 +12,7 @@ app.get('/', (req, res) => {
   res.send("This is the home page")
 })
 
+// fetch
 app.get('/api', async (req, res) => {
   try {
     const users = await User.find();
@@ -21,6 +22,7 @@ app.get('/api', async (req, res) => {
   }
 });
 
+// delete
 app.delete('/api/:id', async (req, res) => {
   try{
     let delUser = await User.findByIdAndDelete(req.params.id);
@@ -31,6 +33,7 @@ app.delete('/api/:id', async (req, res) => {
 
 })
 
+// update
 app.put('/api/:id', async (req, res) => {
   try {
     let editUser = await User.findByIdAndUpdate(req.params.id, {...req.body}, {new: true});
@@ -40,6 +43,7 @@ app.put('/api/:id', async (req, res) => {
   }
 })
 
+// create user
 app.post('/api/user', async (req, res) => {
   try {
     const user = await User.create(req.body);
