@@ -32,22 +32,29 @@ function Main() {
   }
   // EDIT
   const [editValue, setEditValue] = useState();
-  const editData = async (id) => {
-    try{
-      await axios.put(`http://localhost:8000/api/644e43a27d4d63d8cdbb907d`, editValue)
+  const [ editId, setEditId] = useState();
 
-    } catch (error) {
-      console.error('error')
-    }
-  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(value);
+
+    axios.put(`http://localhost:8000/api/${editId}`, editValue)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log("Error while editing data");
+      });
+  };
+
   const [show, setShow] = useState(false);
   let [index, setIndex] = useState(0);
   const handleClose = () => setShow(false);
 
-  const handleShow = (i) => {
+  const handleShow = (i,ID) => {
     setShow(true);
     setIndex(i)
-    console.log(index);
+    setEditId(ID);
   };
 
   return (
@@ -71,7 +78,7 @@ function Main() {
                 <td>{user.email}</td>
                 <td>{user.gender}</td>
                 <td><button onClick={()=>deleteData(user._id)}>Del</button></td>
-                <td><button onClick={() => handleShow(index)}>Edit</button></td>
+                <td><button onClick={() => handleShow(index , user._id)}>Edit</button></td>
               </tr>
             ))}
           </tbody>
@@ -82,16 +89,16 @@ function Main() {
               <Modal.Title>Edit Data</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <input type='text' value={value[1].name} onChange={(e)=>{setEditValue({...editValue, id:e.target.value})}}/>Id<br/>
-              <input type='text' value="name" onChange={(e)=>{setEditValue({...editValue, name:e.target.value})}}/>Name<br/>
-              <input type='text' value="name"onChange={(e)=>{setEditValue({...editValue, email:e.target.value})}}/>Email<br/>
-              <input type='text' value="email" onChange={(e)=>{setEditValue({...editValue, gender:e.target.value})}}/>Gender<br/>
+              <input type='text' placeholder={value[index]?.id} onChange={(e)=>{setEditValue({...editValue, id:e.target.value})}}/>Id<br/>
+              <input type='text' placeholder={value[index]?.name} onChange={(e)=>{setEditValue({...editValue, name:e.target.value})}}/>Name<br/>
+              <input type='text' placeholder={value[index]?.email} onChange={(e)=>{setEditValue({...editValue, email:e.target.value})}}/>Email<br/>
+              <input type='text' placeholder={value[index]?.gender} onChange={(e)=>{setEditValue({...editValue, gender:e.target.value})}}/>Gender<br/>
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
                 Close
               </Button>
-              <Button variant="primary" onClick={() => {}}>
+              <Button variant="primary" onClick={handleSubmit}>
                 Save Changes
               </Button>
             </Modal.Footer>
