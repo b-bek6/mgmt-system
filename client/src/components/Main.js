@@ -31,31 +31,32 @@ function Main() {
     }
   }
   // EDIT
-  const [editValue, setEditValue] = useState();
-  const [ editId, setEditId] = useState();
+  const [editValue, setEditValue] = useState({});
+
+  const handleShow = (index) => {
+    setShow(true);
+    const currenValue = value[index]
+    setEditValue(currenValue);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(value);
-
-    axios.put(`http://localhost:8000/api/${editId}`, editValue)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log("Error while editing data");
-      });
+    
+    axios.put(`http://localhost:8000/api/${editValue._id}`, editValue)
+    .then((response) => {
+      console.log(response.data);
+      fetchData();
+    })
+    .catch((error) => {
+      console.log("Error while editing data");
+    });
+    handleClose();
   };
 
   const [show, setShow] = useState(false);
-  let [index, setIndex] = useState(0);
   const handleClose = () => setShow(false);
 
-  const handleShow = (i,ID) => {
-    setShow(true);
-    setIndex(i)
-    setEditId(ID);
-  };
 
   return (
     <div className='main'>
@@ -78,7 +79,7 @@ function Main() {
                 <td>{user.email}</td>
                 <td>{user.gender}</td>
                 <td><button onClick={()=>deleteData(user._id)}>Del</button></td>
-                <td><button onClick={() => handleShow(index , user._id)}>Edit</button></td>
+                <td><button onClick={() => handleShow(index)}>Edit</button></td>
               </tr>
             ))}
           </tbody>
@@ -89,10 +90,10 @@ function Main() {
               <Modal.Title>Edit Data</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <input type='text' placeholder={value[index]?.id} onChange={(e)=>{setEditValue({...editValue, id:e.target.value})}}/>Id<br/>
-              <input type='text' placeholder={value[index]?.name} onChange={(e)=>{setEditValue({...editValue, name:e.target.value})}}/>Name<br/>
-              <input type='text' placeholder={value[index]?.email} onChange={(e)=>{setEditValue({...editValue, email:e.target.value})}}/>Email<br/>
-              <input type='text' placeholder={value[index]?.gender} onChange={(e)=>{setEditValue({...editValue, gender:e.target.value})}}/>Gender<br/>
+              <input type='text' value={editValue.id} onChange={(e)=>{setEditValue({...editValue, id:e.target.value})}}/>Id<br/>
+              <input type='text' value={editValue.name} onChange={(e)=>{setEditValue({...editValue, name:e.target.value})}}/>Name<br/>
+              <input type='text' value={editValue.email} onChange={(e)=>{setEditValue({...editValue, email:e.target.value})}}/>Email<br/>
+              <input type='text' value={editValue.gender} onChange={(e)=>{setEditValue({...editValue, gender:e.target.value})}}/>Gender<br/>
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
